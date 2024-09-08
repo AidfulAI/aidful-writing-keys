@@ -1,0 +1,15 @@
+actions:
+  - def: rewrite formal
+    key: <ctrl>+<shift>+v
+    llm: gemma2:2b
+    ask: "Rewrite the following very formal and polite. No explanations or note:"
+
+  - def: fix text
+    key: <ctrl>+<shift>+c
+    llm: gemma2:2b
+    ask: "Reply only with exactly the same text as entered below, but correct the spelling and grammar. Do not add any explanation of what you correct:"
+
+  - def: translate to German
+    key: <ctrl>+<shift>+x
+    llm: gemma2:2b
+    ask: "Translate the following text to German. Only provide the translation, no explanations or note:"

@@ -3,10 +3,18 @@ import pyperclip
 import requests
 from pynput import keyboard
 import time
+import signal
+import sys
 
 kboard = keyboard.Controller()
 is_processing = False
+hotkey_listener = None
 
+def signal_handler(sig, frame):
+    print("\nShutting down gracefully...")
+    if hotkey_listener:
+        hotkey_listener.stop()
+    sys.exit(0)
 
 def read_config():
     with open('config.yml', 'r') as file:
@@ -91,14 +99,19 @@ def process_text(text, action):
         return(f"Error calling Ollama: {response.status_code}, {response.text}")
 
 def main():
+    global hotkey_listener
+    signal.signal(signal.SIGINT, signal_handler)
+
     hotkeys = {}
     for action in config['actions']:
         hotkeys[action['key']] = lambda action=action: on_hotkey(action)
 
-    with keyboard.GlobalHotKeys(hotkeys) as h:
+    hotkey_listener = keyboard.GlobalHotKeys(hotkeys)
+    with hotkey_listener as h:
         print("aidful-key app is running:")
         for action in config['actions']:
             print(f"Press {action['key']} to {action['def']} using {action['llm']}")
+        print("Press <ctrl>+c in this terminal to exit")
         h.join()
 
 if __name__ == "__main__":

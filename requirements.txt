@@ -1,0 +1,4 @@
+pyyaml
+pyperclip
+requests
+pynput

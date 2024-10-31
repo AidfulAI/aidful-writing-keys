@@ -2,11 +2,9 @@ import yaml
 import pyperclip
 import requests
 from pynput import keyboard
-import clipman
 import time
 
 kboard = keyboard.Controller()
-clipman.init()
 is_processing = False
 
 
@@ -51,7 +49,7 @@ def on_hotkey(action):
         time.sleep(0.01)
 
         # Get text from clipboard
-        text = clipman.get()
+        text = pyperclip.paste()
 
         # Send text to LLM for processing
         processed_text = process_text(text, action)

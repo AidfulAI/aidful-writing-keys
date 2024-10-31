@@ -19,17 +19,16 @@ def on_hotkey(action):
     Handles the hotkey press event to perform text processing.
 
     This function is triggered when the user presses the configured hotkey. It performs the following steps:
-    1. Simulates Ctrl+A and Ctrl+C to select and copy the text.
+    1. Simulates Ctrl+C to copy the currently selected text.
     2. Retrieves the copied text from the clipboard.
     3. Sends the text to a language model for processing.
     4. Copies the processed text back to the clipboard.
     5. Simulates Ctrl+V to paste the processed text.
 
     Notes:
-    1. There's an unexpected behavior when splitting Ctrl+A and Ctrl+C into separate
-    'with' statements, causing the function to execute twice.
+    1. If no text selected, the current content of the clipboard is processed and pasted at the cursor position.
     2. For many key combinations the initial script hang because this function was
-    called multiple times. This is no prevented with the global is_processing variable.
+    called multiple times. This is now prevented with the global is_processing variable.
     """
     global is_processing
     if is_processing:
@@ -40,8 +39,6 @@ def on_hotkey(action):
     try:
         # Add everything selectable to the clipboard
         with kboard.pressed(keyboard.Key.ctrl):
-            kboard.press('a')
-            kboard.release('a')
             kboard.press('c')
             kboard.release('c')
 
@@ -59,8 +56,6 @@ def on_hotkey(action):
 
         # Replace the current text by pasting the content back in the active window
         with kboard.pressed(keyboard.Key.ctrl):
-            kboard.press('a') # Ensure that the current text is selected
-            kboard.release('a')
             kboard.press('v')
             kboard.release('v')
     finally:

@@ -2,4 +2,3 @@ pyyaml
 pyperclip
 requests
 pynput
-clipman

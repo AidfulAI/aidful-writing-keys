@@ -108,7 +108,7 @@ def main():
 
     hotkey_listener = keyboard.GlobalHotKeys(hotkeys)
     with hotkey_listener as h:
-        print("aidful-key app is running:")
+        print("aidful-writing-keys app is running:")
         for action in config['actions']:
             print(f"Press {action['key']} to {action['def']} using {action['llm']}")
         print("Press <ctrl>+c in this terminal to exit")
